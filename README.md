@@ -72,8 +72,8 @@ TODO: Update the features of this driver
 
 LumberjackFirestoreDriver is published as the `@ngworker/lumberjack-firestore-driver` package.
 
-| Toolchain   | Command                                            |
-| ----------- | -------------------------------------------------- |
+| Toolchain   | Command                                             |
+| ----------- | --------------------------------------------------- |
 | Angular CLI | `ng add @ngworker/lumberjack-firestore-driver`      |
 | NPM CLI     | `npm install @ngworker/lumberjack-firestore-driver` |
 | Nx CLI      | `nx add @ngworker/lumberjack-firestore-driver`      |
@@ -84,13 +84,13 @@ LumberjackFirestoreDriver is published as the `@ngworker/lumberjack-firestore-dr
 `LumberjackFirestoreDriver` has verified compatibility with the following Angular versions.
 
 | Angular version | lumberjack-firestore-driver support |
-| --------------- | --------------------- |
-| 11.0.x          | ✅                    |
-| 10.2.x          | ✅                    |
-| 10.1.x          | ✅                    |
-| 10.0.x          | ✅                    |
-| 9.1.x           | ✅                    |
-| 9.0.x           | ✅                    |
+| --------------- | ----------------------------------- |
+| 11.0.x          | ✅                                  |
+| 10.2.x          | ✅                                  |
+| 10.1.x          | ✅                                  |
+| 10.0.x          | ✅                                  |
+| 9.1.x           | ✅                                  |
+| 9.0.x           | ✅                                  |
 
 If the version you are using is not listed, please [raise an issue in our GitHub repository](https://github.com/ngworker/lumberjack-firestore-driver/issues/new).
 

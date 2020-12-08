@@ -1,5 +1,7 @@
-import { Inject, NgModule, Optional, SkipSelf } from '@angular/core';
+import { Inject, NgModule, NgZone, Optional, SkipSelf } from '@angular/core';
 
+// tslint:disable-next-line: ordered-imports
+import { AngularFirestore, AngularFirestoreModule } from '@angular/fire/firestore';
 import {
   LumberjackLogDriverConfig,
   lumberjackLogDriverConfigToken,
@@ -13,21 +15,24 @@ import {
 } from './lumberjack-firestore-driver.config';
 
 export function lumberjackFirestoreDriverFactory(
+  firestore: AngularFirestore,
   logDriverConfig: LumberjackLogDriverConfig,
-  lumberjackFirestoreDriverConfig: LumberjackFirestoreDriverConfig
+  lumberjackFirestoreDriverConfig: LumberjackFirestoreDriverConfig,
+  ngZone: NgZone
 ): LumberjackFirestoreDriver {
   const config: LumberjackFirestoreDriverConfig = {
     ...logDriverConfig,
     ...lumberjackFirestoreDriverConfig,
   };
 
-  return new LumberjackFirestoreDriver(config);
+  return new LumberjackFirestoreDriver(config, firestore, ngZone);
 }
 
 @NgModule({
+  imports: [AngularFirestoreModule],
   providers: [
     {
-      deps: [lumberjackLogDriverConfigToken, lumberjackFirestoreDriverConfigToken],
+      deps: [AngularFirestore, lumberjackLogDriverConfigToken, lumberjackFirestoreDriverConfigToken, NgZone],
       multi: true,
       provide: lumberjackLogDriverToken,
       useFactory: lumberjackFirestoreDriverFactory,

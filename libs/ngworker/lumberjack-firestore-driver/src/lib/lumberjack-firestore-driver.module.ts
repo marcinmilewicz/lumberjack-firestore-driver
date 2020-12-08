@@ -1,5 +1,8 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 
+// tslint:disable-next-line: ordered-imports
+import { AngularFireModule } from '@angular/fire';
+
 import { LumberjackFirestoreDriverRootModule } from './lumberjack-firestore-driver-root.module';
 import {
   LumberjackFirestoreDriverConfig,
@@ -13,9 +16,12 @@ export class LumberjackFirestoreDriverModule {
    * Pass a full LumberjackFirestoreDriver configuration.
    */
   static forRoot(config: LumberjackFirestoreDriverConfig): ModuleWithProviders<LumberjackFirestoreDriverRootModule> {
+    const firebaseProviders = AngularFireModule.initializeApp(config.firebaseConfig).providers;
+
     return {
       ngModule: LumberjackFirestoreDriverRootModule,
       providers: [
+        ...(firebaseProviders || []),
         {
           provide: lumberjackFirestoreDriverConfigToken,
           useValue: config,

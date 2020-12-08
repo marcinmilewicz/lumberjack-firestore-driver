@@ -4,6 +4,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { LumberjackLevel, LumberjackModule } from '@ngworker/lumberjack';
 import { LumberjackFirestoreDriverModule } from '@ngworker/lumberjack-firestore-driver';
 
+import { environment } from '../environments/environment';
+
 import { AppComponent } from './app.component';
 
 @NgModule({
@@ -11,7 +13,12 @@ import { AppComponent } from './app.component';
   imports: [
     BrowserModule,
     LumberjackModule.forRoot(),
-    LumberjackFirestoreDriverModule.forRoot({ levels: [LumberjackLevel.Verbose], someNeededOption: 'option-value' }),
+    LumberjackFirestoreDriverModule.forRoot({
+      levels: [LumberjackLevel.Verbose],
+      firebaseConfig: environment.firebase,
+      origin: 'ForestApp',
+      collectionName: 'forest-app-logs',
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent],
