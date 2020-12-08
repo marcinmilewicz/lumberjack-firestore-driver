@@ -35,14 +35,22 @@ export class LumberjackFirestoreDriverModule {
    * the log driver config for common options.
    */
   static withOptions(
-    options: LumberjackFirestoreDriverOptions
+    options: LumberjackFirestoreDriverOptions,
+    config: LumberjackFirestoreDriverConfig
   ): ModuleWithProviders<LumberjackFirestoreDriverRootModule> {
+    const firebaseProviders = AngularFireModule.initializeApp(config.firebaseConfig).providers;
+
     return {
       ngModule: LumberjackFirestoreDriverRootModule,
       providers: [
+        ...(firebaseProviders || []),
         {
           provide: lumberjackFirestoreDriverConfigToken,
           useValue: options,
+        },
+        {
+          provide: lumberjackFirestoreDriverConfigToken,
+          useValue: config,
         },
       ],
     };
