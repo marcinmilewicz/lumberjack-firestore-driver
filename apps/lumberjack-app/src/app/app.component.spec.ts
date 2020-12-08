@@ -1,7 +1,7 @@
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
-import { LumberjackLevel, LumberjackModule } from '@ngworker/lumberjack';
 
-import { <name-capitalize-united>Module } from '@<organization-hyphen>/<name-hyphen>';
+import { LumberjackLevel, LumberjackModule } from '@ngworker/lumberjack';
+import { LumberjackFirestoreDriverModule } from '@ngworker/lumberjack-firestore-driver';
 
 import { AppComponent } from './app.component';
 
@@ -11,7 +11,7 @@ describe('AppComponent', () => {
     component: AppComponent,
     imports: [
       LumberjackModule.forRoot(),
-      <name-capitalize-united>Module.forRoot({ levels: [LumberjackLevel.Verbose], someNeededOption: 'option-value' }),
+      LumberjackFirestoreDriverModule.forRoot({ levels: [LumberjackLevel.Verbose], someNeededOption: 'option-value' }),
     ],
   });
 

@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { AppLogger } from './app-logger.service';
 
 @Component({
-  selector: '<organization-hyphen>-root',
+  selector: 'ngworker-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })

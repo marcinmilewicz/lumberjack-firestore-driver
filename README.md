@@ -28,7 +28,7 @@ Search across the repository files and solve the TODO comments.
 
 > End of AUTHORS SECTION. Delete everything above
 
-# @<organization-hyphen>/<name-hyphen>
+# @ngworker/lumberjack-firestore-driver
 
 <p align="center">
  <img width="40%" height="40%" src="./logo.svg">
@@ -43,13 +43,13 @@ Search across the repository files and solve the TODO comments.
 [![PRs](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)]()
 [![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 [![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)
-[![<organization-hyphen>](https://img.shields.io/badge/<organization-hyphen>-%40-red)](https://github.com/<organization-hyphen>/)
+[![ngworker](https://img.shields.io/badge/ngworker-%40-red)](https://github.com/ngworker/)
 [![spectator](https://img.shields.io/badge/tested%20with-spectator-2196F3.svg?style=flat-square)]()
 [![Wallaby.js](https://img.shields.io/badge/wallaby.js-powered-blue.svg?style=flat&logo=github)](https://wallabyjs.com/oss/)
 
 TODO: Modify the description of this driver
 
-<name-capitalize> is a custom log driver for [ngworker/lumberjack](https://github.com/ngworker/lumberjack). It is used to send logs over SOME protocol.
+Lumberjack Firestore Driver is a custom log driver for [ngworker/lumberjack](https://github.com/ngworker/lumberjack). It is used to send logs over SOME protocol.
 
 ## Features
 
@@ -70,20 +70,20 @@ TODO: Update the features of this driver
 
 ## Installation
 
-<name-capitalize-united> is published as the `@<organization-hyphen>/<name-hyphen>` package.
+LumberjackFirestoreDriver is published as the `@ngworker/lumberjack-firestore-driver` package.
 
 | Toolchain   | Command                                            |
 | ----------- | -------------------------------------------------- |
-| Angular CLI | `ng add @<organization-hyphen>/<name-hyphen>`      |
-| NPM CLI     | `npm install @<organization-hyphen>/<name-hyphen>` |
-| Nx CLI      | `nx add @<organization-hyphen>/<name-hyphen>`      |
-| Yarn CLI    | `yarn add @<organization-hyphen>/<name-hyphen>`    |
+| Angular CLI | `ng add @ngworker/lumberjack-firestore-driver`      |
+| NPM CLI     | `npm install @ngworker/lumberjack-firestore-driver` |
+| Nx CLI      | `nx add @ngworker/lumberjack-firestore-driver`      |
+| Yarn CLI    | `yarn add @ngworker/lumberjack-firestore-driver`    |
 
 ## Compatibility
 
-`<name-capitalize-united>` has verified compatibility with the following Angular versions.
+`LumberjackFirestoreDriver` has verified compatibility with the following Angular versions.
 
-| Angular version | <name-hyphen> support |
+| Angular version | lumberjack-firestore-driver support |
 | --------------- | --------------------- |
 | 11.0.x          | ✅                    |
 | 10.2.x          | ✅                    |
@@ -92,25 +92,25 @@ TODO: Update the features of this driver
 | 9.1.x           | ✅                    |
 | 9.0.x           | ✅                    |
 
-If the version you are using is not listed, please [raise an issue in our GitHub repository](https://github.com/<organization-hyphen>/<name-hyphen>/issues/new).
+If the version you are using is not listed, please [raise an issue in our GitHub repository](https://github.com/ngworker/lumberjack-firestore-driver/issues/new).
 
 ## Usage
 
 TODO: Verify that these configurations match your driver configurations.
 
-To start using <name-capitalize-united>, import it in your root or core Angular module along with Lumberjack.
+To start using LumberjackFirestoreDriver, import it in your root or core Angular module along with Lumberjack.
 
 ```ts
 import { NgModule } from '@angular/core';
 import { LumberjackLevel, LumberjackModule } from '@ngworker/lumberjack';
-import { <name-capitalize-united> } from '@<organization-hyphen>/<name-hyphen>';
+import { LumberjackFirestoreDriver } from '@ngworker/lumberjack-firestore-driver';
 
 @NgModule({
   imports: [
     LumberjackModule.forRoot({
       levels: [LumberjackLevel.Verbose],
     }),
-    <name-capitalize-united>.forRoot({
+    LumberjackFirestoreDriver.forRoot({
       levels: [LumberjackLevel.Critical, LumberjackLevel.Error],
       // Options
     }),
@@ -121,7 +121,7 @@ import { <name-capitalize-united> } from '@<organization-hyphen>/<name-hyphen>';
 export class AppModule {}
 ```
 
-Now you can start using the `LumberjackService` or extend `LumberjackLogger` and they will automatically use the `<name-capitalize-united>`.
+Now you can start using the `LumberjackService` or extend `LumberjackLogger` and they will automatically use the `LumberjackFirestoreDriver`.
 
 ## Configuration
 
