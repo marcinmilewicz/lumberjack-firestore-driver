@@ -16,17 +16,25 @@ import { LumberjackFirestoreDriverConfig } from './lumberjack-firestore-driver.c
 import { LumberjackFirestoreDriverModule } from './lumberjack-firestore-driver.module';
 import { LumberjackFirestoreDriverOptions } from './lumberjack-firestore-driver.options';
 
+const collectionName = 'collectionName';
+const origin = 'originName';
+const firebaseConfig = {
+  apiKey: 'API_KEY',
+  authDomain: 'PROJECT_ID.firebaseapp.com',
+  databaseURL: 'https://PROJECT_ID.firebaseio.com',
+  projectId: 'PROJECT_ID',
+  storageBucket: 'PROJECT_ID.appspot.com',
+  messagingSenderId: 'SENDER_ID',
+  appId: 'APP_ID',
+  measurementId: 'G-MEASUREMENT_ID',
+};
+
 function createLumberjackFirestoreDriverOptions(): LumberjackFirestoreDriverOptions {
-  return {
-    someNeededOption: 'some-options',
-  };
+  return { collectionName, origin, firebaseConfig };
 }
 
 function createLumberjackFirestoreDriverConfig(levels: LumberjackConfigLevels): LumberjackFirestoreDriverConfig {
-  return {
-    levels,
-    someNeededOption: 'some-options',
-  };
+  return { levels, collectionName, origin, firebaseConfig };
 }
 
 const createLumberjackFirestoreDriver = (
