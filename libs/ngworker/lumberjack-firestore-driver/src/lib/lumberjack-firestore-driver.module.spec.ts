@@ -63,15 +63,20 @@ const createLumberjackFirestoreDriverWithOptions = (
   {
     isLumberjackModuleImportedFirst = true,
     options,
+    config,
   }: {
     isLumberjackModuleImportedFirst?: boolean;
     options: LumberjackFirestoreDriverOptions;
-  } = { options: createLumberjackFirestoreDriverOptions() }
+    config: LumberjackFirestoreDriverConfig;
+  } = {
+    options: createLumberjackFirestoreDriverOptions(),
+    config: createLumberjackFirestoreDriverConfig([LumberjackLevel.Verbose]),
+  }
 ) => {
   TestBed.configureTestingModule({
     imports: [
       isLumberjackModuleImportedFirst ? LumberjackModule.forRoot() : [],
-      LumberjackFirestoreDriverModule.withOptions(options),
+      LumberjackFirestoreDriverModule.withOptions(options, config),
       isLumberjackModuleImportedFirst ? [] : LumberjackModule.forRoot(),
     ],
   });
@@ -143,8 +148,9 @@ describe(LumberjackFirestoreDriverModule.name, () => {
 
     it('registers the specified options', () => {
       const options = createLumberjackFirestoreDriverOptions();
+      const config = createLumberjackFirestoreDriverConfig([LumberjackLevel.Debug]);
 
-      const lumberjackFirestoreDriver = createLumberjackFirestoreDriverWithOptions({ options });
+      const lumberjackFirestoreDriver = createLumberjackFirestoreDriverWithOptions({ options, config });
 
       const actualConfig = lumberjackFirestoreDriver.config;
       const expectedConfig: LumberjackFirestoreDriverConfig = {
@@ -157,8 +163,9 @@ describe(LumberjackFirestoreDriverModule.name, () => {
 
     it('gets common options from the log driver config', () => {
       const options = createLumberjackFirestoreDriverOptions();
+      const config = createLumberjackFirestoreDriverConfig([LumberjackLevel.Verbose]);
 
-      const lumberjackFirestoreDriver = createLumberjackFirestoreDriverWithOptions({ options });
+      const lumberjackFirestoreDriver = createLumberjackFirestoreDriverWithOptions({ options, config });
 
       const { levels } = lumberjackFirestoreDriver.config;
       expect(levels).toEqual([LumberjackLevel.Verbose]);
@@ -166,8 +173,10 @@ describe(LumberjackFirestoreDriverModule.name, () => {
 
     it('does register the specified log driver configuration when the lumberjack module is imported after the LumberjackFirestoreDriver module', () => {
       const options = createLumberjackFirestoreDriverOptions();
+      const config = createLumberjackFirestoreDriverConfig([LumberjackLevel.Verbose]);
 
       const lumberjackFirestoreDriver = createLumberjackFirestoreDriverWithOptions({
+        config,
         options,
         isLumberjackModuleImportedFirst: false,
       });

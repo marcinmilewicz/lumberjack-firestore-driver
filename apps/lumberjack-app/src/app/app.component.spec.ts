@@ -5,13 +5,31 @@ import { LumberjackFirestoreDriverModule } from '@ngworker/lumberjack-firestore-
 
 import { AppComponent } from './app.component';
 
+const collectionName = 'collectionName';
+const origin = 'originName';
+const firebaseConfig = {
+  apiKey: 'API_KEY',
+  authDomain: 'PROJECT_ID.firebaseapp.com',
+  databaseURL: 'https://PROJECT_ID.firebaseio.com',
+  projectId: 'PROJECT_ID',
+  storageBucket: 'PROJECT_ID.appspot.com',
+  messagingSenderId: 'SENDER_ID',
+  appId: 'APP_ID',
+  measurementId: 'G-MEASUREMENT_ID',
+};
+
 describe('AppComponent', () => {
   let spectator: Spectator<AppComponent>;
   const createComponent = createComponentFactory({
     component: AppComponent,
     imports: [
       LumberjackModule.forRoot(),
-      LumberjackFirestoreDriverModule.forRoot({ levels: [LumberjackLevel.Verbose], someNeededOption: 'option-value' }),
+      LumberjackFirestoreDriverModule.forRoot({
+        levels: [LumberjackLevel.Verbose],
+        origin,
+        firebaseConfig,
+        collectionName,
+      }),
     ],
   });
 
