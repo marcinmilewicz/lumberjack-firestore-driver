@@ -1578,10 +1578,10 @@
     enhanced-resolve "5.3.1"
     webpack-sources "2.0.1"
 
-"@ngworker/lumberjack@^2.0.0 || >=2.0.0-beta.0":
-  version "2.0.0-beta.1"
-  resolved "https://registry.yarnpkg.com/@ngworker/lumberjack/-/lumberjack-2.0.0-beta.1.tgz#bb8ab95086c70ab4a6c7c3417b297b2dc3409a1c"
-  integrity sha512-wOU49OAMBkbui5N5zcB5Mt6JtMsFULpQgVY2UKQ7nDY0qGDbJf1LdONjJzaQjnOFMC49zNEMEeogFZQ2hRPLHQ==
+"@ngworker/lumberjack@^2.0.0 || >=2.0.0-beta.2":
+  version "2.0.0-beta.2"
+  resolved "https://registry.yarnpkg.com/@ngworker/lumberjack/-/lumberjack-2.0.0-beta.2.tgz#35e76b7480e47cd41f588c6c8f0db73c07d01992"
+  integrity sha512-H4h3VaUwLoPzVgIJbRmw3E36fSdit5tQFrDAcWqF0U+qrJtJbIxs4osJex4I1jyZ6I0i8rCz/RmoKQ1O4bcjqA==
   dependencies:
     tslib "^2.0.0"
 
