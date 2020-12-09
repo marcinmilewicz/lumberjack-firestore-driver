@@ -1,33 +1,3 @@
-# AUTHORS SECTION
-
-This section is meant to help log driver authors get started with this template.
-
-> TODO: Remove this section when the repository is completely set up.
-
-## Terraform the repository
-
-To customize the repo and enable some pre-configure tools run the `init` script in the terminal at your root directory.
-
-The `init` script will ask for the required information.
-
-### Running the init script.
-
-```bash
-npm run init
-# Or if you use yarn
-yarn run init
-```
-
-## Replace TODOS
-
-Search across the repository files and solve the TODO comments.
-
-### Files with TODOS
-
-- README.md (here)
-
-> End of AUTHORS SECTION. Delete everything above
-
 # @ngworker/lumberjack-firestore-driver
 
 <p align="center">
@@ -47,16 +17,12 @@ Search across the repository files and solve the TODO comments.
 [![spectator](https://img.shields.io/badge/tested%20with-spectator-2196F3.svg?style=flat-square)]()
 [![Wallaby.js](https://img.shields.io/badge/wallaby.js-powered-blue.svg?style=flat&logo=github)](https://wallabyjs.com/oss/)
 
-TODO: Modify the description of this driver
-
-Lumberjack Firestore Driver is a custom log driver for [ngworker/lumberjack](https://github.com/ngworker/lumberjack). It is used to send logs over SOME protocol.
+Lumberjack Firestore Driver is a custom log driver for [ngworker/lumberjack](https://github.com/ngworker/lumberjack). It is used to send logs and store them in [Cloud Firestore](https://firebase.google.com/docs/firestore).
 
 ## Features
 
-TODO: Update the features of this driver
-
-- ✅ Logs to custom log store
-- ✅ Unit test coverage
+- ✅ Logs to Cloud Firestore
+- ✅ Unit test coverage (but there is a room for improvement)
 - ✅ Custom Logger
 - ✅ Follows Lumberjack Best Practices guide
 
@@ -112,7 +78,18 @@ import { LumberjackFirestoreDriver } from '@ngworker/lumberjack-firestore-driver
     }),
     LumberjackFirestoreDriver.forRoot({
       levels: [LumberjackLevel.Critical, LumberjackLevel.Error],
-      // Options
+      firebaseConfig: {
+        apiKey: 'API_KEY',
+        authDomain: 'PROJECT_ID.firebaseapp.com',
+        databaseURL: 'https://PROJECT_ID.firebaseio.com',
+        projectId: 'PROJECT_ID',
+        storageBucket: 'PROJECT_ID.appspot.com',
+        messagingSenderId: 'SENDER_ID',
+        appId: 'APP_ID',
+        measurementId: 'G-MEASUREMENT_ID',
+      },
+      origin: 'YOUR_ORIGIN_APP_NAME',
+      collectionName: 'DESTINATION_FIRESTORE_COLLECTION_NAME',
     }),
     // (...)
   ],
@@ -125,7 +102,7 @@ Now you can start using the `LumberjackService` or extend `LumberjackLogger` and
 
 ## Configuration
 
-TODO: Here it is explained how this custom driver can be configured.
+You should follow the standard Cloud Firestore configuration way which is well described in official documentation  [Cloud Firestore docs](https://firebase.google.com/docs/firestore/quickstart#web_1)
 
 ## Wallaby.js
 
@@ -145,6 +122,13 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- markdownlint-disable -->
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
+
+<table>
+<tr>
+    <td align="center"><a href="https://medium.com/@marcinmilewicz"><img src="https://avatars3.githubusercontent.com/u/40635984" width="100px;" alt=""/><br /><sub><b>Marcin Milewicz</b></sub></a><br /><a href="https://github.com/marcinmilewicz/lumberjack-firestore-driver/commits?author=marcinmilewicz" title="Code">💻</a><a href="https://github.com/marcinmilewicz/lumberjack-firestore-driver/commits?author=marcinmilewicz" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/LayZeeDK"><img src="https://avatars1.githubusercontent.com/u/6364586" width="100px;" alt=""/><br /><sub><b>Lars Gyrup Brink Nielsen</b></sub></a><br />💻📖</td>
+    <td align="center"><a href="https://github.com/NachoVazquez"><img src="https://avatars1.githubusercontent.com/u/9338604" width="100px;" alt=""/><br /><sub><b>Nacho Vazquez</b></sub></a><br />💻📖</td>
+  </tr></table>
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
