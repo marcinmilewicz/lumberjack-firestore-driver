@@ -8,11 +8,9 @@ import {
   lumberjackLogDriverToken,
 } from '@ngworker/lumberjack';
 
-import { LumberjackFirestoreDriver } from './lumberjack-firestore-driver';
-import {
-  LumberjackFirestoreDriverConfig,
-  lumberjackFirestoreDriverConfigToken,
-} from './lumberjack-firestore-driver.config';
+import { LumberjackFirestoreDriver } from '../log-drivers/lumberjack-firestore-driver';
+import { lumberjackFirestoreDriverConfigToken } from './lumberjack-firestore-driver-config.token';
+import { LumberjackFirestoreDriverConfig } from './lumberjack-firestore-driver.config';
 
 export function lumberjackFirestoreDriverFactory(
   firestore: AngularFirestore,

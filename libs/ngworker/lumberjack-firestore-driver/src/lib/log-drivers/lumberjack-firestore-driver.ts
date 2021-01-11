@@ -2,12 +2,10 @@ import { Inject, Injectable, NgZone } from '@angular/core';
 
 // tslint:disable-next-line: ordered-imports
 import { AngularFirestore, DocumentReference } from '@angular/fire/firestore';
-import { LumberjackLevel, LumberjackLogDriver, LumberjackLogLevel } from '@ngworker/lumberjack';
+import { LumberjackLevel, LumberjackLogDriver, LumberjackLogDriverLog, LumberjackLogLevel } from '@ngworker/lumberjack';
+import { lumberjackFirestoreDriverConfigToken } from '../configuration/lumberjack-firestore-driver-config.token';
 
-import {
-  LumberjackFirestoreDriverConfig,
-  lumberjackFirestoreDriverConfigToken,
-} from './lumberjack-firestore-driver.config';
+import { LumberjackFirestoreDriverConfig } from '../configuration/lumberjack-firestore-driver.config';
 
 interface FirestoreCollectionItem {
   entry: string;
@@ -24,27 +22,27 @@ export class LumberjackFirestoreDriver implements LumberjackLogDriver {
     private ngZone: NgZone
   ) {}
 
-  logCritical(formattedLog: string): void {
+  logCritical({ formattedLog }: LumberjackLogDriverLog): void {
     this.log(formattedLog, LumberjackLevel.Critical);
   }
 
-  logDebug(formattedLog: string): void {
+  logDebug({ formattedLog }: LumberjackLogDriverLog): void {
     this.log(formattedLog, LumberjackLevel.Debug);
   }
 
-  logError(formattedLog: string): void {
+  logError({ formattedLog }: LumberjackLogDriverLog): void {
     this.log(formattedLog, LumberjackLevel.Error);
   }
 
-  logInfo(formattedLog: string): void {
+  logInfo({ formattedLog }: LumberjackLogDriverLog): void {
     this.log(formattedLog, LumberjackLevel.Info);
   }
 
-  logTrace(formattedLog: string): void {
+  logTrace({ formattedLog }: LumberjackLogDriverLog): void {
     this.log(formattedLog, LumberjackLevel.Trace);
   }
 
-  logWarning(formattedLog: string): void {
+  logWarning({ formattedLog }: LumberjackLogDriverLog): void {
     this.log(formattedLog, LumberjackLevel.Warning);
   }
 

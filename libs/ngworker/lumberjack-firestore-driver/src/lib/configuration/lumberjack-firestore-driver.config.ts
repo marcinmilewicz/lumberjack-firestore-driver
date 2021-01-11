@@ -1,12 +1,7 @@
-import { InjectionToken } from '@angular/core';
-
 // tslint:disable-next-line: ordered-imports
 import { FirebaseOptions } from '@angular/fire';
-import { LumberjackLogDriverConfig } from '@ngworker/lumberjack';
 
-export const lumberjackFirestoreDriverConfigToken: InjectionToken<LumberjackFirestoreDriverConfig> = new InjectionToken(
-  '__LUMBERJACK_FIRESTORE_DRIVER_CONFIG__'
-);
+import { LumberjackLogDriverConfig } from '@ngworker/lumberjack';
 
 export interface LumberjackFirestoreDriverConfig extends LumberjackLogDriverConfig {
   /**

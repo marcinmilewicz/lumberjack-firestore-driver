@@ -11,7 +11,8 @@ import {
   LumberjackModule,
 } from '@ngworker/lumberjack';
 
-import { LumberjackFirestoreDriver } from './lumberjack-firestore-driver';
+import { LumberjackFirestoreDriver } from '../log-drivers/lumberjack-firestore-driver';
+
 import { LumberjackFirestoreDriverConfig } from './lumberjack-firestore-driver.config';
 import { LumberjackFirestoreDriverModule } from './lumberjack-firestore-driver.module';
 import { LumberjackFirestoreDriverOptions } from './lumberjack-firestore-driver.options';

@@ -3,11 +3,9 @@ import { ModuleWithProviders, NgModule } from '@angular/core';
 // tslint:disable-next-line: ordered-imports
 import { AngularFireModule } from '@angular/fire';
 
+import { lumberjackFirestoreDriverConfigToken } from './lumberjack-firestore-driver-config.token';
 import { LumberjackFirestoreDriverRootModule } from './lumberjack-firestore-driver-root.module';
-import {
-  LumberjackFirestoreDriverConfig,
-  lumberjackFirestoreDriverConfigToken,
-} from './lumberjack-firestore-driver.config';
+import { LumberjackFirestoreDriverConfig } from './lumberjack-firestore-driver.config';
 import { LumberjackFirestoreDriverOptions } from './lumberjack-firestore-driver.options';
 
 @NgModule()
