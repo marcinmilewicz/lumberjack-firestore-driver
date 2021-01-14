@@ -42,7 +42,6 @@ LumberjackFirestoreDriver is published as the `@ngworker/lumberjack-firestore-dr
 | ----------- | --------------------------------------------------- |
 | Angular CLI | `ng add @ngworker/lumberjack-firestore-driver`      |
 | NPM CLI     | `npm install @ngworker/lumberjack-firestore-driver` |
-| Nx CLI      | `nx add @ngworker/lumberjack-firestore-driver`      |
 | Yarn CLI    | `yarn add @ngworker/lumberjack-firestore-driver`    |
 
 ## Compatibility
