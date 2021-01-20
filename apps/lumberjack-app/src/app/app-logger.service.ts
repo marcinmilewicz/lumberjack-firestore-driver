@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
 
-import { LumberjackLogger, LumberjackService, LumberjackTimeService } from '@ngworker/lumberjack';
+import { LumberjackService, LumberjackTimeService, ScopedLumberjackLogger } from '@ngworker/lumberjack';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AppLogger extends LumberjackLogger {
-  private static scope = 'Forest App';
+export class AppLogger extends ScopedLumberjackLogger {
+  public scope = 'Forest App';
 
   constructor(lumberjack: LumberjackService, time: LumberjackTimeService) {
     super(lumberjack, time);
   }
 
-  forestOnFire = this.createCriticalLogger('The forest is on fire', AppLogger.scope);
+  forestOnFire = this.createCriticalLogger('The forest is on fire').build();
 
-  helloForest = this.createInfoLogger('HelloForest', AppLogger.scope);
+  helloForest = this.createInfoLogger('HelloForest').build();
 }
