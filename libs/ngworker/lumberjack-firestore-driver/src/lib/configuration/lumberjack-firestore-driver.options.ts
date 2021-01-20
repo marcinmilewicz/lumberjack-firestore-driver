@@ -1,5 +1,9 @@
 import { LumberjackLogDriverConfig } from '@ngworker/lumberjack';
 
-import { LumberjackFirestoreDriverConfig } from './lumberjack-firestore-driver.config';
+import { LumberjackFirestoreDriverInternalConfig } from './lumberjack-firestore-driver-internal.config';
 
-export type LumberjackFirestoreDriverOptions = Omit<LumberjackFirestoreDriverConfig, keyof LumberjackLogDriverConfig>;
+export type LumberjackFirestoreDriverOptions = Omit<
+  LumberjackFirestoreDriverInternalConfig,
+  keyof LumberjackLogDriverConfig
+> &
+  Partial<LumberjackLogDriverConfig>;

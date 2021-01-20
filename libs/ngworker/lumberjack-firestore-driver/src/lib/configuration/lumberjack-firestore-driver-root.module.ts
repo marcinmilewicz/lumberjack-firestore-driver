@@ -10,16 +10,16 @@ import {
 
 import { LumberjackFirestoreDriver } from '../log-drivers/lumberjack-firestore-driver';
 import { lumberjackFirestoreDriverConfigToken } from './lumberjack-firestore-driver-config.token';
-import { LumberjackFirestoreDriverConfig } from './lumberjack-firestore-driver.config';
+import { LumberjackFirestoreDriverInternalConfig } from './lumberjack-firestore-driver-internal.config';
 
 export function lumberjackFirestoreDriverFactory(
   firestore: AngularFirestore,
   logDriverConfig: LumberjackLogDriverConfig,
-  lumberjackFirestoreDriverConfig: LumberjackFirestoreDriverConfig,
+  lumberjackFirestoreDriverConfig: LumberjackFirestoreDriverInternalConfig,
   ngZone: NgZone
 ): LumberjackFirestoreDriver {
-  const config: LumberjackFirestoreDriverConfig = {
-    ...logDriverConfig,
+  const config: LumberjackFirestoreDriverInternalConfig = {
+    ...{ ...logDriverConfig, identifier: LumberjackFirestoreDriver.driverIdentifier },
     ...lumberjackFirestoreDriverConfig,
   };
 
