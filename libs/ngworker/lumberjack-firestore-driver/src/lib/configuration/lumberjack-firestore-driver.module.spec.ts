@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { expectNgModuleToBeGuardedAgainstDirectImport } from '@internal/test-util';
+import { expectNgModuleToBeGuardedAgainstDirectImport, resolveDependency } from '@internal/test-util';
 import {
   LumberjackConfigLevels,
   lumberjackConfigToken,
@@ -13,6 +13,7 @@ import {
 
 import { LumberjackFirestoreDriver } from '../log-drivers/lumberjack-firestore-driver';
 
+import { LumberjackFirestoreDriverInternalConfig } from './lumberjack-firestore-driver-internal.config';
 import { LumberjackFirestoreDriverConfig } from './lumberjack-firestore-driver.config';
 import { LumberjackFirestoreDriverModule } from './lumberjack-firestore-driver.module';
 import { LumberjackFirestoreDriverOptions } from './lumberjack-firestore-driver.options';
@@ -30,12 +31,23 @@ const firebaseConfig = {
   measurementId: 'G-MEASUREMENT_ID',
 };
 
-function createLumberjackFirestoreDriverOptions(): LumberjackFirestoreDriverOptions {
-  return { collectionName, origin, firebaseConfig };
+function createLumberjackFirestoreDriverOptions(
+  extraOptions: { levels?: LumberjackConfigLevels; identifier?: string } = {}
+): LumberjackFirestoreDriverOptions {
+  return { collectionName, origin, firebaseConfig, ...extraOptions };
 }
 
-function createLumberjackFirestoreDriverConfig(levels: LumberjackConfigLevels): LumberjackFirestoreDriverConfig {
-  return { levels, collectionName, origin, firebaseConfig };
+function createLumberjackFirestoreDriverConfig(
+  levels: LumberjackConfigLevels,
+  identifier?: string
+): LumberjackFirestoreDriverConfig {
+  const config = { levels, collectionName, origin, firebaseConfig, identifier };
+
+  if (!identifier) {
+    delete config.identifier;
+  }
+
+  return config;
 }
 
 const createLumberjackFirestoreDriver = (
@@ -45,7 +57,12 @@ const createLumberjackFirestoreDriver = (
   }: {
     config: LumberjackFirestoreDriverConfig;
     isLumberjackModuleImportedFirst?: boolean;
-  } = { config: createLumberjackFirestoreDriverConfig([LumberjackLevel.Verbose]) }
+  } = {
+    config: createLumberjackFirestoreDriverConfig(
+      [LumberjackLevel.Verbose],
+      LumberjackFirestoreDriver.driverIdentifier
+    ),
+  }
 ) => {
   TestBed.configureTestingModule({
     imports: [
@@ -55,7 +72,7 @@ const createLumberjackFirestoreDriver = (
     ],
   });
 
-  const [lumberjackFirestoreDriver] = (TestBed.inject(lumberjackLogDriverToken) as unknown) as LumberjackLogDriver[];
+  const [lumberjackFirestoreDriver] = (resolveDependency(lumberjackLogDriverToken) as unknown) as LumberjackLogDriver[];
 
   return lumberjackFirestoreDriver;
 };
@@ -64,20 +81,17 @@ const createLumberjackFirestoreDriverWithOptions = (
   {
     isLumberjackModuleImportedFirst = true,
     options,
-    config,
   }: {
     isLumberjackModuleImportedFirst?: boolean;
     options: LumberjackFirestoreDriverOptions;
-    config: LumberjackFirestoreDriverConfig;
   } = {
     options: createLumberjackFirestoreDriverOptions(),
-    config: createLumberjackFirestoreDriverConfig([LumberjackLevel.Verbose]),
   }
 ) => {
   TestBed.configureTestingModule({
     imports: [
       isLumberjackModuleImportedFirst ? LumberjackModule.forRoot() : [],
-      LumberjackFirestoreDriverModule.withOptions(options, config),
+      LumberjackFirestoreDriverModule.withOptions(options),
       isLumberjackModuleImportedFirst ? [] : LumberjackModule.forRoot(),
     ],
   });
@@ -99,13 +113,22 @@ describe(LumberjackFirestoreDriverModule.name, () => {
       expect(lumberjackFirestoreDriver).toBeInstanceOf(LumberjackFirestoreDriver);
     });
 
-    it('registers the specified log driver configuration', () => {
-      const expectedConfig = createLumberjackFirestoreDriverConfig([LumberjackLevel.Error]);
+    it('registers the specified log driver configuration given a specified identifier', () => {
+      const expectedConfig = createLumberjackFirestoreDriverConfig([LumberjackLevel.Error], 'TestDriverIdentifier');
 
       const lumberjackFirestoreDriver = createLumberjackFirestoreDriver({ config: expectedConfig });
 
       const actualConfig = lumberjackFirestoreDriver.config;
-      expect(actualConfig).toEqual(expectedConfig);
+      expect(actualConfig).toEqual(expectedConfig as LumberjackFirestoreDriverInternalConfig);
+    });
+
+    it('registers the specified log driver configuration given no specified identifier', () => {
+      const config = createLumberjackFirestoreDriverConfig([LumberjackLevel.Error]);
+      const expectedConfig = { ...config, identifier: LumberjackFirestoreDriver.driverIdentifier };
+      const lumberjackFirestoreDriver = createLumberjackFirestoreDriver({ config });
+
+      const actualConfig = lumberjackFirestoreDriver.config;
+      expect(actualConfig).toEqual(expectedConfig as LumberjackFirestoreDriverInternalConfig);
     });
 
     it('registers a default level configuration if none is specified', () => {
@@ -119,16 +142,17 @@ describe(LumberjackFirestoreDriverModule.name, () => {
       const lumberjackConfig = TestBed.inject(lumberjackConfigToken);
       const defaultLogDriverConfig: LumberjackLogDriverConfig = {
         levels: lumberjackConfig.levels,
+        identifier: LumberjackFirestoreDriver.driverIdentifier,
       };
       const expectedConfig: LumberjackFirestoreDriverConfig = {
         ...defaultLogDriverConfig,
         ...customLumberjackFirestoreDriverConfig,
       };
-      expect(actualConfig).toEqual(expectedConfig);
+      expect(actualConfig).toEqual(expectedConfig as LumberjackFirestoreDriverInternalConfig);
     });
 
     it('does register the specified log driver configuration when the lumberjack module is imported after the LumberjackFirestoreDriver module', () => {
-      const expectedConfig = createLumberjackFirestoreDriverConfig([LumberjackLevel.Debug]);
+      const expectedConfig = createLumberjackFirestoreDriverConfig([LumberjackLevel.Debug], 'TestDriverIdentifier');
 
       const lumberjackFirestoreDriver = createLumberjackFirestoreDriver({
         config: expectedConfig,
@@ -136,7 +160,7 @@ describe(LumberjackFirestoreDriverModule.name, () => {
       });
 
       const actualConfig = lumberjackFirestoreDriver.config;
-      expect(actualConfig).toEqual(expectedConfig);
+      expect(actualConfig).toEqual(expectedConfig as LumberjackFirestoreDriverInternalConfig);
     });
   });
 
@@ -149,44 +173,77 @@ describe(LumberjackFirestoreDriverModule.name, () => {
 
     it('registers the specified options', () => {
       const options = createLumberjackFirestoreDriverOptions();
-      const config = createLumberjackFirestoreDriverConfig([LumberjackLevel.Debug]);
 
-      const lumberjackFirestoreDriver = createLumberjackFirestoreDriverWithOptions({ options, config });
+      const lumberjackFirestoreDriver = createLumberjackFirestoreDriverWithOptions({ options });
 
       const actualConfig = lumberjackFirestoreDriver.config;
-      const expectedConfig: LumberjackFirestoreDriverConfig = {
+      const expectedConfig: LumberjackFirestoreDriverInternalConfig = {
         ...options,
         // tslint:disable-next-line: no-any
         levels: jasmine.any(Array) as any,
+        // tslint:disable-next-line: no-any
+        identifier: jasmine.any(String) as any,
       };
       expect(actualConfig).toEqual(expectedConfig);
     });
 
-    it('gets common options from the log driver config', () => {
+    it('registers the specified options with custom levels', () => {
+      const customLevels: LumberjackConfigLevels = [LumberjackLevel.Critical];
+      const options = createLumberjackFirestoreDriverOptions({ levels: customLevels });
+
+      const lumberjackFirestoreDriver = createLumberjackFirestoreDriverWithOptions({ options });
+
+      const actualConfig = lumberjackFirestoreDriver.config;
+      const expectedConfig: LumberjackFirestoreDriverInternalConfig = {
+        ...options,
+        // tslint:disable-next-line: no-any
+        levels: customLevels,
+        // tslint:disable-next-line: no-any
+        identifier: jasmine.any(String) as any,
+      };
+      expect(actualConfig).toEqual(expectedConfig);
+    });
+
+    it('registers the specified options with custom identifier', () => {
+      const customIdentifier = 'TestDriverIdentifier';
+      const options = createLumberjackFirestoreDriverOptions({ identifier: customIdentifier });
+
+      const lumberjackFirestoreDriver = createLumberjackFirestoreDriverWithOptions({ options });
+
+      const actualConfig = lumberjackFirestoreDriver.config;
+      const expectedConfig: LumberjackFirestoreDriverInternalConfig = {
+        ...options,
+        // tslint:disable-next-line: no-any
+        levels: jasmine.any(Array) as any,
+        identifier: customIdentifier,
+      };
+      expect(actualConfig).toEqual(expectedConfig);
+    });
+
+    it('gets default options from the log driver config', () => {
       const options = createLumberjackFirestoreDriverOptions();
-      const config = createLumberjackFirestoreDriverConfig([LumberjackLevel.Verbose]);
 
-      const lumberjackFirestoreDriver = createLumberjackFirestoreDriverWithOptions({ options, config });
+      const lumberjackFirestoreDriver = createLumberjackFirestoreDriverWithOptions({ options });
 
-      const { levels } = lumberjackFirestoreDriver.config;
+      const { levels, identifier } = lumberjackFirestoreDriver.config;
       expect(levels).toEqual([LumberjackLevel.Verbose]);
+      expect(identifier).toEqual(LumberjackFirestoreDriver.driverIdentifier);
     });
 
     it('does register the specified log driver configuration when the lumberjack module is imported after the LumberjackFirestoreDriver module', () => {
       const options = createLumberjackFirestoreDriverOptions();
-      const config = createLumberjackFirestoreDriverConfig([LumberjackLevel.Verbose]);
 
       const lumberjackFirestoreDriver = createLumberjackFirestoreDriverWithOptions({
-        config,
         options,
         isLumberjackModuleImportedFirst: false,
       });
 
       const actualConfig = lumberjackFirestoreDriver.config;
-      const expectedConfig: LumberjackFirestoreDriverConfig = {
+      const expectedConfig: LumberjackFirestoreDriverInternalConfig = {
         ...options,
         // tslint:disable-next-line: no-any
         levels: jasmine.any(Array) as any,
+        identifier: LumberjackFirestoreDriver.driverIdentifier,
       };
       expect(actualConfig).toEqual(expectedConfig);
     });

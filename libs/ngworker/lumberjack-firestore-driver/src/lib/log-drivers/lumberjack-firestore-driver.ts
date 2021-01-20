@@ -5,7 +5,7 @@ import { AngularFirestore, DocumentReference } from '@angular/fire/firestore';
 import { LumberjackLevel, LumberjackLogDriver, LumberjackLogDriverLog, LumberjackLogLevel } from '@ngworker/lumberjack';
 import { lumberjackFirestoreDriverConfigToken } from '../configuration/lumberjack-firestore-driver-config.token';
 
-import { LumberjackFirestoreDriverConfig } from '../configuration/lumberjack-firestore-driver.config';
+import { LumberjackFirestoreDriverInternalConfig } from '../configuration/lumberjack-firestore-driver-internal.config';
 
 interface FirestoreCollectionItem {
   entry: string;
@@ -16,8 +16,10 @@ interface FirestoreCollectionItem {
 
 @Injectable()
 export class LumberjackFirestoreDriver implements LumberjackLogDriver {
+  static driverIdentifier = 'LumberjackFirestoreDriver';
+
   constructor(
-    @Inject(lumberjackFirestoreDriverConfigToken) public config: LumberjackFirestoreDriverConfig,
+    @Inject(lumberjackFirestoreDriverConfigToken) public config: LumberjackFirestoreDriverInternalConfig,
     private firestore: AngularFirestore,
     private ngZone: NgZone
   ) {}
