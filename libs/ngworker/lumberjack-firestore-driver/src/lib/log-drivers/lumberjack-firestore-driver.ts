@@ -1,7 +1,7 @@
 import { Inject, Injectable, NgZone } from '@angular/core';
 
 // tslint:disable-next-line: ordered-imports
-import { AngularFirestore, DocumentReference } from '@angular/fire/firestore';
+import { AngularFirestore } from '@angular/fire/firestore';
 import { LumberjackLevel, LumberjackLogDriver, LumberjackLogDriverLog, LumberjackLogLevel } from '@ngworker/lumberjack';
 import { lumberjackFirestoreDriverConfigToken } from '../configuration/lumberjack-firestore-driver-config.token';
 
