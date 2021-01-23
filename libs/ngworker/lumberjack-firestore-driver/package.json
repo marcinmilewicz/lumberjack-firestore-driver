@@ -1,6 +1,6 @@
 {
   "name": "@ngworker/lumberjack-firestore-driver",
-  "version": "0.0.0",
+  "version": "2.0.0",
   "peerDependencies": {
     "@angular/core": ">=9.0.7",
     "@ngworker/lumberjack": "^2.0.0 || >=2.0.0-rc.0",
@@ -26,11 +26,11 @@
     "access": "public"
   },
   "bugs": {
-    "url": "https://github.com/ngworker/lumberjack-firestore-driver/issue"
+    "url": "https://github.com/marcinmilewicz/lumberjack-firestore-driver/issue"
   },
-  "homepage": "https://github.com/ngworker/lumberjack-firestore-driver#readme",
+  "homepage": "https://github.com/marcinmilewicz/lumberjack-firestore-driver#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ngworker/lumberjack-firestore-driver"
+    "url": "https://github.com/marcinmilewicz/lumberjack-firestore-driver"
   }
 }

@@ -51,20 +51,15 @@ export class LumberjackFirestoreDriver implements LumberjackLogDriver {
   private log(entry: string, level: LumberjackLogLevel): void {
     const { origin } = this.config;
     const timestamp = Date.now();
-    this.sendLogPackage({ entry, level, origin, timestamp })
-      .then((d) => console.log(d))
-      .catch((error) => console.error('Package has not been successfully sent.', { error }));
+    this.sendLogPackage({ entry, level, origin, timestamp });
   }
 
   private sendLogPackage(collectionItem: FirestoreCollectionItem) {
-    return new Promise<DocumentReference<FirestoreCollectionItem>>((resolve) => {
-      this.ngZone.runOutsideAngular(() => {
-        const promise = this.firestore
-          .collection<FirestoreCollectionItem>(this.config.collectionName)
-          .add(collectionItem);
-
-        resolve(promise);
-      });
+    this.ngZone.runOutsideAngular(() => {
+      this.firestore
+        .collection<FirestoreCollectionItem>(this.config.collectionName)
+        .add(collectionItem)
+        .catch((error) => console.error('Package has not been successfully sent.', { error }));
     });
   }
 }
